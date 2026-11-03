@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>trending-agent-digest · 每天一份 GitHub Trending 中文简报</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; margin: 0; line-height: 1.7; background: #f6f8fa; color: #1f2328; }
+  header { background: #0d1117; color: #fff; padding: 48px 20px; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 20px 64px; }
+  h1 { margin: 0 0 12px; font-size: 2rem; }
+  h2 { margin-top: 40px; }
+  p.lead { font-size: 1.15rem; color: #c9d1d9; max-width: 680px; }
+  .card { background: #fff; border: 1px solid #d0d7de; border-radius: 12px; padding: 20px 22px; margin: 16px 0; }
+  @media (prefers-color-scheme: dark) { body { background: #0d1117; color: #e6edf3; } .card { background: #161b22; border-color: #30363d; } }
+  code { background: rgba(127,127,127,.18); padding: 2px 6px; border-radius: 6px; }
+  pre { background: #0d1117; color: #e6edf3; padding: 16px; border-radius: 10px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  a { color: #0969da; }
+  header a { color: #79c0ff; }
+  .btn { display: inline-block; background: #2da44e; color: #fff !important; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 12px; }
+  ul { padding-left: 20px; }
+</style>
+</head>
+<body>
+<header>
+  <main style="padding:0">
+    <h1>trending-agent-digest</h1>
+    <p class="lead">每天一份 GitHub Trending 中文简报，聚焦 AI Agent 与开发者工具。小而专、可演示、每天都有新内容。</p>
+    <a class="btn" href="https://github.com/0326haojie/trending-agent-digest">在 GitHub 上查看仓库 →</a>
+  </main>
+</header>
+<main>
+  <h2>它能干什么</h2>
+  <div class="card">
+    <ul>
+      <li>抓取 GitHub Trending（daily / weekly）</li>
+      <li>按类别分类：AI Agent、开发者工具、学习资源、其他</li>
+      <li>输出一份可读的中文 Markdown 简报，包含项目名、简介和当日新增 star 数</li>
+    </ul>
+  </div>
+
+  <h2>快速开始</h2>
+  <pre><code>python3 trending.py --since daily
+python3 trending.py --since daily --output report-2026-11-03.md</code></pre>
+  <p>不需要安装任何第三方依赖，只用 Python 标准库。完整代码在仓库根目录的 <code>trending.py</code>。</p>
+
+  <h2>今日示例 · 2026-11-03</h2>
+  <div class="card">
+    <h3>AI Agent</h3>
+    <ul>
+      <li><strong>vercel-labs/agent-desktop</strong>：给 AI Agent 用的电脑操作 CLI</li>
+      <li><strong>thedotmack/claude-mem</strong>：跨会话的 Agent 持久记忆</li>
+      <li><strong>Donchitos/Claude-Code-Game-Studios</strong>：把 Claude Code 变成游戏开发工作室</li>
+      <li><strong>max-sixty/worktrunk</strong>：为并行 AI Agent 工作流做的 Git worktree 管理 CLI</li>
+      <li><strong>paperclipai/paperclip</strong>：在工作中管理 Agent 的开源应用</li>
+    </ul>
+    <h3>开发者工具</h3>
+    <ul>
+      <li><strong>D4Vinci/Scrapling</strong>：从单次请求到大规模抓取的网络抓取框架</li>
+      <li><strong>FlashML-org/FreeToken</strong>：把数据中心级模型服务带到桌面</li>
+      <li><strong>hyprwm/Hyprland</strong>：高度可定制的动态平铺 Wayland 合成器</li>
+    </ul>
+    <p>完整示例见仓库的 <code>examples/report-2026-11-03.md</code>。</p>
+  </div>
+
+  <h2>为什么做这个</h2>
+  <p>今天的 Trending 有一个很明显的规律：上榜的不是大而全的框架，而是帮 Agent 记东西、管任务、操作电脑、并行干活的小而专的工具。这个项目就是把这个规律变成一个每天都能复用的简报工具。</p>
+  <p><a href="https://github.com/0326haojie/trending-agent-digest">https://github.com/0326haojie/trending-agent-digest</a></p>
+</main>
+</body>
+</html>
