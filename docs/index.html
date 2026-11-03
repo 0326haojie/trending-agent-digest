@@ -5,121 +5,161 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>trending-agent-digest · 今日与本周 GitHub Trending</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<meta name="description" content="每天一份 GitHub Trending 中文简报，聚焦 AI Agent 与开发者工具。今日榜与本周榜，每个项目都有中文介绍，点击直达仓库。">
+<meta name="description" content="每天一份 GitHub Trending 中文简报，聚焦 AI Agent 与开发者工具。今日榜与本周榜，每个项目都有中文介绍，点击新开页面直达仓库。">
 <style>
   * { box-sizing: border-box; }
-  body { margin: 0; background: #010409; color: #e6edf3; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.65; }
-  .shell { max-width: 980px; margin: 28px auto; padding: 0 18px 64px; }
-  .window { background: #0d1117; border: 1px solid #30363d; border-radius: 12px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,.55); }
-  .titlebar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #161b22; border-bottom: 1px solid #30363d; }
+  body { margin: 0; background: #010409; color: #e6edf3; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.6; }
+  a { color: #58a6ff; }
+  /* Layout: sidebar + main, not a single card stack */
+  .layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  aside { position: sticky; top: 0; height: 100vh; background: #0d1117; border-right: 1px solid #30363d; padding: 24px 20px; }
+  .dots { display: flex; gap: 8px; margin-bottom: 24px; }
   .dot { width: 12px; height: 12px; border-radius: 50%; }
   .dot.r { background: #f85149; } .dot.y { background: #d29922; } .dot.g { background: #3fb950; }
-  .titlebar span { margin-left: 10px; color: #8b949e; font-size: 13px; }
-  .hero { padding: 34px 28px 10px; }
-  .prompt { color: #3fb950; }
-  .prompt b { color: #e6edf3; }
-  h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.2; margin: 14px 0 10px; letter-spacing: -0.02em; }
+  aside .logo { font-size: 18px; font-weight: 700; }
+  aside .logo span { color: #3fb950; }
+  aside nav { margin: 28px 0; display: grid; gap: 10px; }
+  aside nav a { color: #c9d1d9; text-decoration: none; padding: 10px 12px; border: 1px solid #30363d; border-radius: 8px; }
+  aside nav a:hover { border-color: #3fb950; color: #fff; }
+  aside .stat { color: #8b949e; font-size: 13px; line-height: 1.9; border-top: 1px solid #30363d; padding-top: 16px; }
+  aside .stat b { color: #d29922; }
+  main { padding: 28px 32px 64px; max-width: 1100px; }
+  /* Hero: split, not centered stack */
+  .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: start; margin-bottom: 36px; }
+  h1 { font-size: clamp(30px, 4.5vw, 48px); line-height: 1.15; margin: 8px 0 12px; letter-spacing: -0.02em; }
   h1 .accent { color: #3fb950; }
-  .lead { color: #8b949e; max-width: 720px; margin: 0 0 18px; font-size: 16px; }
-  .cmds { display: flex; flex-wrap: wrap; gap: 10px; padding: 0 28px 24px; }
-  .cmds button, .cmds a { font: inherit; cursor: pointer; background: #21262d; color: #e6edf3; border: 1px solid #30363d; border-radius: 8px; padding: 9px 14px; text-decoration: none; }
-  .cmds button.active { background: #3fb950; color: #0d1117; border-color: #3fb950; font-weight: 700; }
-  .search { padding: 0 28px 24px; }
-  .search input { width: 100%; background: #010409; color: #e6edf3; border: 1px solid #30363d; border-radius: 8px; padding: 12px 14px; font: inherit; }
-  .search input:focus { outline: 2px solid #3fb950; border-color: #3fb950; }
-  section { padding: 8px 28px 28px; }
-  h2 { font-size: 20px; margin: 28px 0 4px; }
-  h2 .dim { color: #8b949e; font-weight: 400; }
-  .section-note { color: #8b949e; margin: 0 0 16px; }
-  .card { border-left: 3px solid #3fb950; background: #161b22; border-top: 1px solid #21262d; border-right: 1px solid #21262d; border-bottom: 1px solid #21262d; border-radius: 0 10px 10px 0; padding: 16px 18px; margin: 12px 0; }
-  .card h3 { margin: 0 0 6px; font-size: 17px; }
-  .card h3 a { color: #58a6ff; text-decoration: none; }
+  .lead { color: #8b949e; font-size: 16px; }
+  .prompt { color: #3fb950; }
+  .featured { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 18px; }
+  .featured h2 { margin-top: 0; font-size: 16px; }
+  .bar-row { margin: 12px 0; }
+  .bar-row a { color: #e6edf3; text-decoration: none; font-weight: 600; }
+  .bar { height: 8px; background: #21262d; border-radius: 999px; overflow: hidden; margin-top: 6px; }
+  .bar i { display: block; height: 100%; background: #3fb950; }
+  .bar-row .num { color: #d29922; font-size: 13px; }
+  .btn { display: inline-block; background: #2da44e; color: #fff !important; padding: 11px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-top: 14px; }
+  .filter input { width: 100%; background: #0d1117; color: #e6edf3; border: 1px solid #30363d; border-radius: 8px; padding: 12px 14px; font: inherit; margin: 8px 0 24px; }
+  h2.section { font-size: 22px; border-bottom: 1px solid #30363d; padding-bottom: 10px; margin: 40px 0 6px; }
+  .section-note { color: #8b949e; margin: 0 0 18px; }
+  /* Daily: 2-column grid, with rank numbers */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card { background: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 18px; display: grid; grid-template-columns: 44px 1fr; gap: 14px; }
+  .rank { font-size: 26px; font-weight: 800; color: #30363d; line-height: 1; }
+  .card h3 { margin: 0 0 6px; font-size: 16px; }
+  .card h3 a { text-decoration: none; }
   .card h3 a:hover { text-decoration: underline; }
   .meta { color: #d29922; font-size: 13px; margin: 0 0 6px; }
-  .card p { margin: 4px 0; color: #c9d1d9; }
   .tag { color: #3fb950; }
+  .card p { margin: 4px 0; color: #c9d1d9; font-size: 14px; }
+  /* Weekly: full-width table rows, a different layout from Daily */
+  .row { display: grid; grid-template-columns: 36px 220px 110px 1fr; gap: 16px; align-items: start; padding: 16px 0; border-bottom: 1px solid #21262d; }
+  .row .rnum { color: #8b949e; }
+  .row h3 { margin: 0; font-size: 15px; }
+  .row h3 a { text-decoration: none; }
+  .row p { margin: 0; color: #c9d1d9; font-size: 14px; }
+  pre { background: #0d1117; border: 1px solid #30363d; color: #e6edf3; padding: 16px; border-radius: 10px; overflow-x: auto; }
+  footer { color: #8b949e; font-size: 14px; border-top: 1px solid #30363d; margin-top: 40px; padding-top: 20px; }
   .hidden { display: none !important; }
-  footer { padding: 0 28px 28px; color: #8b949e; font-size: 14px; }
-  footer a { color: #58a6ff; }
-  @media (max-width: 600px) { .hero, section, .cmds, .search, footer { padding-left: 16px; padding-right: 16px; } }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    aside { position: static; height: auto; border-right: none; border-bottom: 1px solid #30363d; }
+    .hero, .grid { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 28px 1fr; }
+    .row .tagcol, .row .desc { grid-column: 2; }
+    main { padding: 20px 16px 48px; }
+  }
 </style>
 </head>
 <body>
-<div class="shell">
-  <div class="window">
-    <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span>trending-agent-digest — zsh</span></div>
+<div class="layout">
+  <aside>
+    <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+    <div class="logo">trending<span>-</span>agent<span>-</span>digest</div>
+    <p style="color:#8b949e;font-size:14px">GitHub Trending 中文简报 · 终端工作台版</p>
+    <nav>
+      <a href="#daily">01 · 今日榜</a>
+      <a href="#weekly">02 · 本周榜</a>
+      <a href="#tool">03 · 工具用法</a>
+      <a href="https://github.com/0326haojie/trending-agent-digest" target="_blank" rel="noopener noreferrer">↗ Open Repo（新页面打开）</a>
+    </nav>
+    <div class="stat">今日项目 <b>15</b><br>本周项目 <b>16</b><br>今日最高新增 <b>t3code +3,229</b><br>数据 <b>2026-11-03</b></div>
+  </aside>
+
+  <main>
     <div class="hero">
-      <p class="prompt">$ <b>trending --today --week --lang zh</b></p>
-      <h1>trending<span class="accent">-</span>agent<span class="accent">-</span>digest</h1>
-      <p class="lead">每天一份 GitHub Trending 中文简报，聚焦 AI Agent 与开发者工具。每个项目都写了是做什么的、有什么用，点击项目名直接打开它的仓库。</p>
-      <p class="prompt">$ <b>cat README.md</b> <span style="color:#8b949e"># 2026-11-03 快照 · 数据来源 github.com/trending</span></p>
+      <div>
+        <p class="prompt">$ trending --today --week --lang zh</p>
+        <h1>今天，<br>Agent 在<br>做什么<span class="accent">？</span></h1>
+        <p class="lead">不是大而全的框架在上榜，而是帮 Agent 记东西、管任务、操作电脑、并行干活的小而专的工具。下面是今日和本周的完整榜单，每个项目都有中文介绍，点开会在新页面打开它的仓库。</p>
+        <a class="btn" href="https://github.com/0326haojie/trending-agent-digest" target="_blank" rel="noopener noreferrer">Open Repo ↗</a>
+      </div>
+      <div class="featured">
+        <h2>今日涨幅 Top 3</h2>
+        <div class="bar-row"><a href="https://github.com/pingdotgg/t3code" target="_blank" rel="noopener noreferrer">t3code</a><div class="num">+3,229 stars today</div><div class="bar"><i style="width:100%"></i></div></div>
+        <div class="bar-row"><a href="https://github.com/vercel-labs/agent-desktop" target="_blank" rel="noopener noreferrer">agent-desktop</a><div class="num">+2,275 stars today</div><div class="bar"><i style="width:70%"></i></div></div>
+        <div class="bar-row"><a href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener noreferrer">claude-mem</a><div class="num">+1,803 stars today</div><div class="bar"><i style="width:56%"></i></div></div>
+        <p style="color:#8b949e;font-size:13px">条形长度按今日新增 star 数换算，最高为 100%。</p>
+      </div>
     </div>
-    <div class="cmds">
-      <button id="btn-daily" class="active" onclick="show('daily')">./trending --daily</button>
-      <button id="btn-weekly" onclick="show('weekly')">./trending --weekly</button>
-      <a href="https://github.com/0326haojie/trending-agent-digest">→ open repo</a>
+
+    <div class="filter"><input id="filter" placeholder="$ filter: 输入关键词过滤，例如 agent / 爬虫 / 终端 …" oninput="filterCards()"></div>
+
+    <h2 class="section" id="daily">今日榜 · Daily</h2>
+    <p class="section-note">两列网格卡片，左上角是当日排名，star 数按实际数据标注。</p>
+    <div class="grid" id="daily-grid">
+      <div class="card"><div class="rank">01</div><div><h3><a href="https://github.com/vercel-labs/agent-desktop" target="_blank" rel="noopener noreferrer">vercel-labs/agent-desktop</a></h3><p class="meta">★ +2,275 · <span class="tag">AI Agent</span></p><p>给 AI Agent 用的电脑操作 CLI，让 Agent 直接操作桌面应用、做自动化和界面测试。</p></div></div>
+      <div class="card"><div class="rank">02</div><div><h3><a href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener noreferrer">thedotmack/claude-mem</a></h3><p class="meta">★ +1,803 · <span class="tag">AI Agent</span></p><p>跨会话 Agent 持久记忆，压缩会话内容注入下一次，解决 Agent 失忆，兼容多个工具。</p></div></div>
+      <div class="card"><div class="rank">03</div><div><h3><a href="https://github.com/pingdotgg/t3code" target="_blank" rel="noopener noreferrer">pingdotgg/t3code</a></h3><p class="meta">★ +3,229 · <span class="tag">AI Agent</span></p><p>统一管理本机多个 coding agent 的控制面，不用来回切换工具。</p></div></div>
+      <div class="card"><div class="rank">04</div><div><h3><a href="https://github.com/Donchitos/Claude-Code-Game-Studios" target="_blank" rel="noopener noreferrer">Donchitos/Claude-Code-Game-Studios</a></h3><p class="meta">★ +1,379 · <span class="tag">AI Agent</span></p><p>把 Claude Code 变成游戏开发工作室，49 个 Agent、72 个工作流技能，按工作室分工协作。</p></div></div>
+      <div class="card"><div class="rank">05</div><div><h3><a href="https://github.com/D4Vinci/Scrapling" target="_blank" rel="noopener noreferrer">D4Vinci/Scrapling</a></h3><p class="meta">★ +706 · <span class="tag">开发者工具</span></p><p>网络抓取框架，从单次请求到大规模爬取都用同一套工具。</p></div></div>
+      <div class="card"><div class="rank">06</div><div><h3><a href="https://github.com/shiyu-coder/Kronos" target="_blank" rel="noopener noreferrer">shiyu-coder/Kronos</a></h3><p class="meta">★ +857 · <span class="tag">AI 模型</span></p><p>金融市场语言的基础模型，把金融时间序列当作语言建模，用于分析和预测研究。</p></div></div>
+      <div class="card"><div class="rank">07</div><div><h3><a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener noreferrer">mattpocock/skills</a></h3><p class="meta">★ +858 · <span class="tag">AI Agent</span></p><p>真实工程师的 Agent 技能合集，直接复用打磨好的工作方式。</p></div></div>
+      <div class="card"><div class="rank">08</div><div><h3><a href="https://github.com/FlashML-org/FreeToken" target="_blank" rel="noopener noreferrer">FlashML-org/FreeToken</a></h3><p class="meta">★ +653 · <span class="tag">AI 模型</span></p><p>把数据中心级模型服务带到桌面，在本地更快更省地运行大模型。</p></div></div>
+      <div class="card"><div class="rank">09</div><div><h3><a href="https://github.com/JustVugg/colibri" target="_blank" rel="noopener noreferrer">JustVugg/colibri</a></h3><p class="meta">★ +675 · <span class="tag">AI 模型</span></p><p>纯 C、零依赖的 MoE 推理引擎，专家权重从磁盘流式加载，已有硬件也能跑前沿模型。</p></div></div>
+      <div class="card"><div class="rank">10</div><div><h3><a href="https://github.com/hyprwm/Hyprland" target="_blank" rel="noopener noreferrer">hyprwm/Hyprland</a></h3><p class="meta">★ +509 · <span class="tag">开发者工具</span></p><p>高度可定制的动态平铺 Wayland 合成器，兼顾美观和效率。</p></div></div>
+      <div class="card"><div class="rank">11</div><div><h3><a href="https://github.com/kornia/kornia" target="_blank" rel="noopener noreferrer">kornia/kornia</a></h3><p class="meta">★ +412 · <span class="tag">AI 模型</span></p><p>面向空间 AI 的几何计算机视觉库，用于图像几何、3D 感知、机器人视觉。</p></div></div>
+      <div class="card"><div class="rank">12</div><div><h3><a href="https://github.com/paperclipai/paperclip" target="_blank" rel="noopener noreferrer">paperclipai/paperclip</a></h3><p class="meta">★ +412 · <span class="tag">AI Agent</span></p><p>在工作中管理 Agent 的开源应用，把多个 Agent 的任务和产出集中管理。</p></div></div>
+      <div class="card"><div class="rank">13</div><div><h3><a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener noreferrer">karpathy/nanochat</a></h3><p class="meta">★ +321 · <span class="tag">AI 模型</span></p><p>约 100 美元成本能做出的最好 ChatGPT 复现，用于学习小模型训练推理全链路。</p></div></div>
+      <div class="card"><div class="rank">14</div><div><h3><a href="https://github.com/max-sixty/worktrunk" target="_blank" rel="noopener noreferrer">max-sixty/worktrunk</a></h3><p class="meta">★ +77 · <span class="tag">AI Agent</span></p><p>Git worktree 管理 CLI，专为并行 AI Agent 工作流设计，多个 Agent 改不同分支不冲突。</p></div></div>
+      <div class="card"><div class="rank">15</div><div><h3><a href="https://github.com/p-e-w/heretic" target="_blank" rel="noopener noreferrer">p-e-w/heretic</a></h3><p class="meta">★ +420 · <span class="tag">AI 模型</span></p><p>无需训练即可修改语言模型行为，减少审查限制、AI 味和谄媚回答。</p></div></div>
     </div>
-    <div class="search"><input id="filter" placeholder="$ filter: 输入关键词过滤项目，例如 agent / 爬虫 / 终端 …" oninput="filterCards()"></div>
 
-    <section id="daily">
-      <h2>今日榜 <span class="dim">· Daily</span></h2>
-      <p class="section-note">今日主角是 AI Agent 工具：帮 Agent 记东西、管任务、操作电脑、并行干活。</p>
-      <div class="card"><h3><a href="https://github.com/vercel-labs/agent-desktop">vercel-labs/agent-desktop</a></h3><p class="meta">★ 今日 +2,275 · <span class="tag">AI Agent</span></p><p>是做什么的：给 AI Agent 用的电脑操作命令行工具。有什么用：让 Agent 直接操作桌面应用、完成自动化任务和界面测试，而不只是读写代码。</p></div>
-      <div class="card"><h3><a href="https://github.com/thedotmack/claude-mem">thedotmack/claude-mem</a></h3><p class="meta">★ 今日 +1,803 · <span class="tag">AI Agent</span></p><p>是做什么的：跨会话的 Agent 持久记忆工具，会把会话内容用 AI 压缩，再注入下一次会话。有什么用：解决 Agent“每次新开会话就失忆”的问题，兼容 Claude Code、Codex、Gemini 等多个工具。</p></div>
-      <div class="card"><h3><a href="https://github.com/pingdotgg/t3code">pingdotgg/t3code</a></h3><p class="meta">★ 今日 +3,229 · <span class="tag">AI Agent</span></p><p>是做什么的：一个控制面，统一管理本机上的多个 coding agent。有什么用：不用在多个 Agent 工具之间来回切换，在一个界面里调度它们干活。</p></div>
-      <div class="card"><h3><a href="https://github.com/Donchitos/Claude-Code-Game-Studios">Donchitos/Claude-Code-Game-Studios</a></h3><p class="meta">★ 今日 +1,379 · <span class="tag">AI Agent</span></p><p>是做什么的：把 Claude Code 变成一个游戏开发工作室，内置 49 个 Agent 和 72 个工作流技能。有什么用：按真实工作室的分工协作做游戏，从策划、美术到代码都有对应角色。</p></div>
-      <div class="card"><h3><a href="https://github.com/D4Vinci/Scrapling">D4Vinci/Scrapling</a></h3><p class="meta">★ 今日 +706 · <span class="tag">开发者工具</span></p><p>是做什么的：网络抓取框架。有什么用：从一次简单的请求，到大规模爬取都能用同一套工具，适合做数据采集和公开信息整理。</p></div>
-      <div class="card"><h3><a href="https://github.com/shiyu-coder/Kronos">shiyu-coder/Kronos</a></h3><p class="meta">★ 今日 +857 · <span class="tag">AI 模型</span></p><p>是做什么的：金融市场语言的基础模型。有什么用：把金融时间序列当作一种“语言”来建模，用于金融数据的分析和预测研究。</p></div>
-      <div class="card"><h3><a href="https://github.com/mattpocock/skills">mattpocock/skills</a></h3><p class="meta">★ 今日 +858 · <span class="tag">AI Agent</span></p><p>是做什么的：真实工程师的 Agent 技能合集。有什么用：直接复用别人打磨好的技能，让 Agent 按更专业的工作方式干活。</p></div>
-      <div class="card"><h3><a href="https://github.com/FlashML-org/FreeToken">FlashML-org/FreeToken</a></h3><p class="meta">★ 今日 +653 · <span class="tag">AI 模型</span></p><p>是做什么的：把数据中心级模型服务带到桌面。有什么用：在本地更快、更省地运行大模型，不用完全依赖云端。</p></div>
-      <div class="card"><h3><a href="https://github.com/JustVugg/colibri">JustVugg/colibri</a></h3><p class="meta">★ 今日 +675 · <span class="tag">AI 模型</span></p><p>是做什么的：纯 C、零依赖的 MoE 模型推理引擎，专家权重可以从磁盘流式加载。有什么用：在自己已有的硬件上跑前沿混合专家模型，降低硬件门槛。</p></div>
-      <div class="card"><h3><a href="https://github.com/hyprwm/Hyprland">hyprwm/Hyprland</a></h3><p class="meta">★ 今日 +509 · <span class="tag">开发者工具</span></p><p>是做什么的：独立、高度可定制的动态平铺 Wayland 合成器。有什么用：给 Linux 桌面做窗口平铺管理，兼顾美观和效率。</p></div>
-      <div class="card"><h3><a href="https://github.com/kornia/kornia">kornia/kornia</a></h3><p class="meta">★ 今日 +412 · <span class="tag">AI 模型</span></p><p>是做什么的：面向空间 AI 的几何计算机视觉库。有什么用：做图像几何、3D 感知、机器人视觉等任务时的基础工具。</p></div>
-      <div class="card"><h3><a href="https://github.com/paperclipai/paperclip">paperclipai/paperclip</a></h3><p class="meta">★ 今日 +412 · <span class="tag">AI Agent</span></p><p>是做什么的：在工作中管理 Agent 的开源应用。有什么用：把多个 Agent 的任务、状态和产出集中管理，适合团队协作。</p></div>
-      <div class="card"><h3><a href="https://github.com/karpathy/nanochat">karpathy/nanochat</a></h3><p class="meta">★ 今日 +321 · <span class="tag">AI 模型</span></p><p>是做什么的：用约 100 美元成本能做出的最好 ChatGPT 复现。有什么用：学习和研究小规模语言模型训练、推理的完整链路。</p></div>
-      <div class="card"><h3><a href="https://github.com/max-sixty/worktrunk">max-sixty/worktrunk</a></h3><p class="meta">★ 今日 +77 · <span class="tag">AI Agent</span></p><p>是做什么的：Git worktree 管理 CLI，专为并行 AI Agent 工作流设计。有什么用：多个 Agent 同时改不同分支时，不互相干扰代码目录。</p></div>
-      <div class="card"><h3><a href="https://github.com/p-e-w/heretic">p-e-w/heretic</a></h3><p class="meta">★ 今日 +420 · <span class="tag">AI 模型</span></p><p>是做什么的：无需训练即可修改语言模型行为的工具。有什么用：减少审查限制、降低“AI 味”、减少谄媚回答，研究模型行为调整。</p></div>
-    </section>
+    <h2 class="section" id="weekly">本周榜 · Weekly</h2>
+    <p class="section-note">本周用整行表格布局，和今日的两列网格完全不同：排名、项目、分类、介绍在一行里横向展开。</p>
+    <div id="weekly-list">
+      <div class="row"><div class="rnum">01</div><h3><a href="https://github.com/Nutlope/hallmark" target="_blank" rel="noopener noreferrer">Nutlope/hallmark</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">反 AI 味设计技能，面向 Claude Code、Cursor、Codex，让 Agent 界面不再一眼 AI 做。</p></div>
+      <div class="row"><div class="rnum">02</div><h3><a href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener noreferrer">thedotmack/claude-mem</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">今日和本周都上榜：跨会话持久记忆，解决 Agent 失忆问题。</p></div>
+      <div class="row"><div class="rnum">03</div><h3><a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener noreferrer">pbakaus/impeccable</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">给 coding agent 的设计词汇表，用更讲究的措辞做设计评审、批判和审计。</p></div>
+      <div class="row"><div class="rnum">04</div><h3><a href="https://github.com/AgriciDaniel/claude-seo" target="_blank" rel="noopener noreferrer">AgriciDaniel/claude-seo</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">通用 SEO 技能，26 个子技能、19 个子 Agent，系统地做技术、内容和本地 SEO。</p></div>
+      <div class="row"><div class="rnum">05</div><h3><a href="https://github.com/obra/superpowers" target="_blank" rel="noopener noreferrer">obra/superpowers</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">Agentic 技能框架和开发方法论，给 Agent 一套可复用的工作方法。</p></div>
+      <div class="row"><div class="rnum">06</div><h3><a href="https://github.com/pingdotgg/t3code" target="_blank" rel="noopener noreferrer">pingdotgg/t3code</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">今日和本周都上榜：统一管理本机多个 coding agent 的控制面。</p></div>
+      <div class="row"><div class="rnum">07</div><h3><a href="https://github.com/JetBrains/thinkrail" target="_blank" rel="noopener noreferrer">JetBrains/thinkrail</a></h3><div class="tagcol tag">开发者工具</div><p class="desc">轻量 IDE，围绕你的工作方式自我定制，适合用 pi 做 vibe coding。</p></div>
+      <div class="row"><div class="rnum">08</div><h3><a href="https://github.com/cloudflare/security-audit-skill" target="_blank" rel="noopener noreferrer">cloudflare/security-audit-skill</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">多阶段安全审计技能，输出可独立验证、机器可读的审计结果。</p></div>
+      <div class="row"><div class="rnum">09</div><h3><a href="https://github.com/jakubkrehel/skills" target="_blank" rel="noopener noreferrer">jakubkrehel/skills</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">帮助做出好界面的 agent 技能合集，本周 +1,707 stars。</p></div>
+      <div class="row"><div class="rnum">10</div><h3><a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank" rel="noopener noreferrer">multica-ai/andrej-karpathy-skills</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">单个 CLAUDE.md，基于 Karpathy 对 LLM 编码坑的观察，改善 Claude Code 行为。</p></div>
+      <div class="row"><div class="rnum">11</div><h3><a href="https://github.com/anthropics/skills" target="_blank" rel="noopener noreferrer">anthropics/skills</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">Agent Skills 公开仓库，学习官方示例和标准写法。</p></div>
+      <div class="row"><div class="rnum">12</div><h3><a href="https://github.com/Leonxlnx/taste-skill" target="_blank" rel="noopener noreferrer">Leonxlnx/taste-skill</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">给 coding agent“品味”的技能：艺术指导、参考图、浏览器检查，产出不再千篇一律。</p></div>
+      <div class="row"><div class="rnum">13</div><h3><a href="https://github.com/TauricResearch/TradingAgents" target="_blank" rel="noopener noreferrer">TauricResearch/TradingAgents</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">多 Agent LLM 金融交易框架，多个 Agent 分工做分析、决策和风险讨论。</p></div>
+      <div class="row"><div class="rnum">14</div><h3><a href="https://github.com/ghostty-org/ghostty" target="_blank" rel="noopener noreferrer">ghostty-org/ghostty</a></h3><div class="tagcol tag">开发者工具</div><p class="desc">快速、跨平台的终端模拟器，原生界面 + GPU 加速，日常命令行更快。</p></div>
+      <div class="row"><div class="rnum">15</div><h3><a href="https://github.com/affaan-m/ECC" target="_blank" rel="noopener noreferrer">affaan-m/ECC</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">Agent 框架性能优化系统，结合技能、记忆、安全和研究优先开发。</p></div>
+      <div class="row"><div class="rnum">16</div><h3><a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener noreferrer">heygen-com/hyperframes</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">写 HTML 就能渲染视频的工具，为 Agent 而建，降低视频制作门槛。</p></div>
+    </div>
 
-    <section id="weekly" class="hidden">
-      <h2>本周榜 <span class="dim">· Weekly</span></h2>
-      <p class="section-note">本周更明显：Agent Skills 成了主角，很多项目不是新模型，而是教 Agent 怎么干活、怎么审美、怎么做安全审计的技能包。</p>
-      <div class="card"><h3><a href="https://github.com/Nutlope/hallmark">Nutlope/hallmark</a></h3><p class="meta"><span class="tag">Agent Skills</span></p><p>是做什么的：反 AI 味设计技能，面向 Claude Code、Cursor 和 Codex。有什么用：让 Agent 生成的界面不再一眼就是 AI 做的，更像认真设计过的产品。</p></div>
-      <div class="card"><h3><a href="https://github.com/thedotmack/claude-mem">thedotmack/claude-mem</a></h3><p class="meta"><span class="tag">AI Agent</span></p><p>今日榜和本周榜都上榜。见今日榜介绍：跨会话持久记忆，解决 Agent 失忆问题。</p></div>
-      <div class="card"><h3><a href="https://github.com/pbakaus/impeccable">pbakaus/impeccable</a></h3><p class="meta"><span class="tag">Agent Skills</span></p><p>是做什么的：给 coding agent 的设计词汇表。有什么用：用更讲究的措辞指导 Agent 做设计评审、批判和审计，在交付前发现 AI 味问题。</p></div>
-      <div class="card"><h3><a href="https://github.com/AgriciDaniel/claude-seo">AgriciDaniel/claude-seo</a></h3><p class="meta"><span class="tag">Agent Skills</span></p><p>是做什么的：通用 SEO 技能，含 26 个子技能和 19 个子 Agent。有什么用：覆盖技术 SEO、内容质量、结构化数据、本地和电商 SEO，以及报告生成，让 Agent 系统地做 SEO。</p></div>
-      <div class="card"><h3><a href="https://github.com/obra/superpowers">obra/superpowers</a></h3><p class="meta"><span class="tag">Agent Skills</span></p><p>是做什么的：Agentic 技能框架和软件开发方法论。有什么用：给 Agent 一套可复用的工作方法，而不是每次都靠临场提示词。</p></div>
-      <div class="card"><h3><a href="https://github.com/pingdotgg/t3code">pingdotgg/t3code</a></h3><p class="meta"><span class="tag">AI Agent</span></p><p>今日榜和本周榜都上榜。见今日榜介绍：统一管理本机多个 coding agent 的控制面。</p></div>
-      <div class="card"><h3><a href="https://github.com/JetBrains/thinkrail">JetBrains/thinkrail</a></h3><p class="meta"><span class="tag">开发者工具</span></p><p>是做什么的：轻量 IDE，会围绕你的工作方式自我定制。有什么用：用 pi 做 vibe coding 时，有一个更贴合个人习惯的编辑器环境。</p></div>
-      <div class="card"><h3><a href="https://github.com/cloudflare/security-audit-skill">cloudflare/security-audit-skill</a></h3><p class="meta"><span class="tag">Agent Skills</span></p><p>是做什么的：多阶段安全审计的 coding agent 技能。有什么用：输出可独立验证、机器可读的安全审计结果，适合把审计接入自动化流程。</p></div>
-      <div class="card"><h3><a href="https://github.com/jakubkrehel/skills">jakubkrehel/skills</a></h3><p class="meta">★ 本周 +1,707 · <span class="tag">Agent Skills</span></p><p>是做什么的：帮助做出好界面的 agent 技能合集。有什么用：让 Agent 在做界面时有明确的设计标准，而不是只拼功能。</p></div>
-      <div class="card"><h3><a href="https://github.com/multica-ai/andrej-karpathy-skills">multica-ai/andrej-karpathy-skills</a></h3><p class="meta"><span class="tag">Agent Skills</span></p><p>是做什么的：单个 CLAUDE.md 文件，基于 Andrej Karpathy 对 LLM 编码常见坑的观察。有什么用：直接放进项目，就能改善 Claude Code 的行为，避开典型错误。</p></div>
-      <div class="card"><h3><a href="https://github.com/anthropics/skills">anthropics/skills</a></h3><p class="meta"><span class="tag">Agent Skills</span></p><p>是做什么的：Agent Skills 的公开仓库。有什么用：官方示例和标准写法，学习怎么写可复用的 Agent 技能。</p></div>
-      <div class="card"><h3><a href="https://github.com/Leonxlnx/taste-skill">Leonxlnx/taste-skill</a></h3><p class="meta"><span class="tag">Agent Skills</span></p><p>是做什么的：给 coding agent“品味”的技能，含艺术指导、参考图和浏览器检查。有什么用：让 Agent 的产出有审美判断，而不是生成千篇一律的通用页面。</p></div>
-      <div class="card"><h3><a href="https://github.com/TauricResearch/TradingAgents">TauricResearch/TradingAgents</a></h3><p class="meta"><span class="tag">AI Agent</span></p><p>是做什么的：多 Agent 的 LLM 金融交易框架。有什么用：多个 Agent 分工做市场分析、交易决策和风险讨论，研究 Agent 在金融场景的协作。</p></div>
-      <div class="card"><h3><a href="https://github.com/ghostty-org/ghostty">ghostty-org/ghostty</a></h3><p class="meta"><span class="tag">开发者工具</span></p><p>是做什么的：快速、功能丰富、跨平台的终端模拟器。有什么用：用原生界面和 GPU 加速，日常命令行体验更快更顺。</p></div>
-      <div class="card"><h3><a href="https://github.com/affaan-m/ECC">affaan-m/ECC</a></h3><p class="meta"><span class="tag">AI Agent</span></p><p>是做什么的：Agent 框架性能优化系统。有什么用：把技能、记忆、安全和研究优先的开发方式结合起来，提升 Claude Code、Codex 等工具的 Agent 表现。</p></div>
-      <div class="card"><h3><a href="https://github.com/heygen-com/hyperframes">heygen-com/hyperframes</a></h3><p class="meta"><span class="tag">AI Agent</span></p><p>是做什么的：写 HTML 就能渲染视频的工具，为 Agent 而建。有什么用：让 Agent 用熟悉的 HTML 方式生成视频内容，降低视频制作门槛。</p></div>
-    </section>
+    <h2 class="section" id="tool">工具用法</h2>
+    <pre><code>python3 trending.py --since daily
+python3 trending.py --since weekly --output report-weekly.md</code></pre>
+    <p style="color:#8b949e">仓库里有完整工具，无第三方依赖。项目简介为中文整理，最新 star 数以各仓库页面为准。</p>
 
     <footer>
-      <p class="prompt">$ <b>python3 trending.py --since daily</b> <span style="color:#8b949e"># 仓库里有完整工具，无第三方依赖</span></p>
-      <p>说明：本页项目简介为中文整理，原始英文简介和最新 star 数以各仓库页面为准。点击项目名即可直达对应仓库。 · <a href="https://github.com/0326haojie/trending-agent-digest">trending-agent-digest on GitHub</a></p>
+      <p class="prompt">$ exit <span style="color:#8b949e"># 回到仓库：</span> <a href="https://github.com/0326haojie/trending-agent-digest" target="_blank" rel="noopener noreferrer">trending-agent-digest ↗</a></p>
     </footer>
-  </div>
+  </main>
 </div>
 <script>
-function show(kind) {
-  document.getElementById('daily').classList.toggle('hidden', kind !== 'daily');
-  document.getElementById('weekly').classList.toggle('hidden', kind !== 'weekly');
-  document.getElementById('btn-daily').classList.toggle('active', kind === 'daily');
-  document.getElementById('btn-weekly').classList.toggle('active', kind === 'weekly');
-  filterCards();
-}
 function filterCards() {
   var q = (document.getElementById('filter').value || '').toLowerCase();
-  document.querySelectorAll('section:not(.hidden) .card').forEach(function(card) {
-    card.classList.toggle('hidden', q && !card.textContent.toLowerCase().includes(q));
+  document.querySelectorAll('.card, .row').forEach(function(el) {
+    el.classList.toggle('hidden', q && !el.textContent.toLowerCase().includes(q));
   });
 }
 </script>
