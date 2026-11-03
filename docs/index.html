@@ -52,10 +52,13 @@
   .tag { color: #3fb950; }
   .card p { margin: 4px 0; color: #c9d1d9; font-size: 14px; }
   /* Weekly: full-width table rows, a different layout from Daily */
-  .row { display: grid; grid-template-columns: 36px 220px 110px 1fr; gap: 16px; align-items: start; padding: 16px 0; border-bottom: 1px solid #21262d; }
+  .row { display: grid; grid-template-columns: 36px minmax(0, 280px) 110px minmax(0, 1fr); gap: 16px; align-items: start; padding: 16px 0; border-bottom: 1px solid #21262d; }
+  .row > * { min-width: 0; }
   .row .rnum { color: #8b949e; }
-  .row h3 { margin: 0; font-size: 15px; }
-  .row h3 a { text-decoration: none; }
+  /* Long project names truncate with an ellipsis instead of overflowing into the tag column */
+  .row h3 { margin: 0; font-size: 15px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row h3 a { display: block; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .tagcol { white-space: nowrap; }
   .row p { margin: 0; color: #c9d1d9; font-size: 14px; }
   pre { background: #0d1117; border: 1px solid #30363d; color: #e6edf3; padding: 16px; border-radius: 10px; overflow-x: auto; }
   footer { color: #8b949e; font-size: 14px; border-top: 1px solid #30363d; margin-top: 40px; padding-top: 20px; }
@@ -134,12 +137,12 @@
       <div class="row"><div class="rnum">05</div><h3><a href="https://github.com/obra/superpowers" target="_blank" rel="noopener noreferrer">obra/superpowers</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">Agentic 技能框架和开发方法论，给 Agent 一套可复用的工作方法。</p></div>
       <div class="row"><div class="rnum">06</div><h3><a href="https://github.com/pingdotgg/t3code" target="_blank" rel="noopener noreferrer">pingdotgg/t3code</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">今日和本周都上榜：统一管理本机多个 coding agent 的控制面。</p></div>
       <div class="row"><div class="rnum">07</div><h3><a href="https://github.com/JetBrains/thinkrail" target="_blank" rel="noopener noreferrer">JetBrains/thinkrail</a></h3><div class="tagcol tag">开发者工具</div><p class="desc">轻量 IDE，围绕你的工作方式自我定制，适合用 pi 做 vibe coding。</p></div>
-      <div class="row"><div class="rnum">08</div><h3><a href="https://github.com/cloudflare/security-audit-skill" target="_blank" rel="noopener noreferrer">cloudflare/security-audit-skill</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">多阶段安全审计技能，输出可独立验证、机器可读的审计结果。</p></div>
+      <div class="row"><div class="rnum">08</div><h3><a href="https://github.com/cloudflare/security-audit-skill" target="_blank" rel="noopener noreferrer" title="cloudflare/security-audit-skill">cloudflare/security-audit-skill</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">多阶段安全审计技能，输出可独立验证、机器可读的审计结果。</p></div>
       <div class="row"><div class="rnum">09</div><h3><a href="https://github.com/jakubkrehel/skills" target="_blank" rel="noopener noreferrer">jakubkrehel/skills</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">帮助做出好界面的 agent 技能合集，本周 +1,707 stars。</p></div>
-      <div class="row"><div class="rnum">10</div><h3><a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank" rel="noopener noreferrer">multica-ai/andrej-karpathy-skills</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">单个 CLAUDE.md，基于 Karpathy 对 LLM 编码坑的观察，改善 Claude Code 行为。</p></div>
+      <div class="row"><div class="rnum">10</div><h3><a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank" rel="noopener noreferrer" title="multica-ai/andrej-karpathy-skills">multica-ai/andrej-karpathy-skills</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">单个 CLAUDE.md，基于 Karpathy 对 LLM 编码坑的观察，改善 Claude Code 行为。</p></div>
       <div class="row"><div class="rnum">11</div><h3><a href="https://github.com/anthropics/skills" target="_blank" rel="noopener noreferrer">anthropics/skills</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">Agent Skills 公开仓库，学习官方示例和标准写法。</p></div>
       <div class="row"><div class="rnum">12</div><h3><a href="https://github.com/Leonxlnx/taste-skill" target="_blank" rel="noopener noreferrer">Leonxlnx/taste-skill</a></h3><div class="tagcol tag">Agent Skills</div><p class="desc">给 coding agent“品味”的技能：艺术指导、参考图、浏览器检查，产出不再千篇一律。</p></div>
-      <div class="row"><div class="rnum">13</div><h3><a href="https://github.com/TauricResearch/TradingAgents" target="_blank" rel="noopener noreferrer">TauricResearch/TradingAgents</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">多 Agent LLM 金融交易框架，多个 Agent 分工做分析、决策和风险讨论。</p></div>
+      <div class="row"><div class="rnum">13</div><h3><a href="https://github.com/TauricResearch/TradingAgents" target="_blank" rel="noopener noreferrer" title="TauricResearch/TradingAgents">TauricResearch/TradingAgents</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">多 Agent LLM 金融交易框架，多个 Agent 分工做分析、决策和风险讨论。</p></div>
       <div class="row"><div class="rnum">14</div><h3><a href="https://github.com/ghostty-org/ghostty" target="_blank" rel="noopener noreferrer">ghostty-org/ghostty</a></h3><div class="tagcol tag">开发者工具</div><p class="desc">快速、跨平台的终端模拟器，原生界面 + GPU 加速，日常命令行更快。</p></div>
       <div class="row"><div class="rnum">15</div><h3><a href="https://github.com/affaan-m/ECC" target="_blank" rel="noopener noreferrer">affaan-m/ECC</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">Agent 框架性能优化系统，结合技能、记忆、安全和研究优先开发。</p></div>
       <div class="row"><div class="rnum">16</div><h3><a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener noreferrer">heygen-com/hyperframes</a></h3><div class="tagcol tag">AI Agent</div><p class="desc">写 HTML 就能渲染视频的工具，为 Agent 而建，降低视频制作门槛。</p></div>
